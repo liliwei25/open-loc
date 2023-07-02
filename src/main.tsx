@@ -6,7 +6,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
@@ -18,7 +18,7 @@ import { RoutePath } from './constants/routePath.ts';
 import { Login } from './pages/Login.tsx';
 import { authLoader } from './utils/loaders/authLoader.ts';
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route element={<AuthLayout />} loader={authLoader}>
       <Route path={RoutePath.Login} element={<Login />} />
