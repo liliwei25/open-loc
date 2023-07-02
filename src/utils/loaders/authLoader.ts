@@ -5,7 +5,7 @@ import { UserInfo } from '../../types/userInfo.ts';
 import { getUserInfo } from '../auth/getUserInfo.ts';
 import { isAuthorisedEmail } from '../auth/isAuthorisedEmail.ts';
 
-export const authLoader = () => async (): Promise<UserInfo | null> => {
+export const authLoader = async (): Promise<UserInfo | null> => {
   const token = Cookies.get(CookieName.Token);
   if (!token) return null;
   try {

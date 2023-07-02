@@ -15,6 +15,7 @@ import {
 import { AuthLayout } from './components/layouts/AuthLayout.tsx';
 import { ProtectedLayout } from './components/layouts/ProtectedLayout.tsx';
 import { RoutePath } from './constants/routePath.ts';
+import { Dashboard } from './pages/Dashboard.tsx';
 import { Login } from './pages/Login.tsx';
 import { authLoader } from './utils/loaders/authLoader.ts';
 
@@ -23,7 +24,7 @@ const router = createHashRouter(
     <Route element={<AuthLayout />} loader={authLoader}>
       <Route path={RoutePath.Login} element={<Login />} />
       <Route element={<ProtectedLayout />}>
-        <Route path={RoutePath.Dashboard} element={<></>} />
+        <Route path={RoutePath.Dashboard} element={<Dashboard />} />
       </Route>
     </Route>
   )
