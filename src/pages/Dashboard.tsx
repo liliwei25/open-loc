@@ -1,5 +1,4 @@
-import { Center, Container } from '@mantine/core';
-
+import { DashboardLayout } from '../components/layout/DashboardLayout.tsx';
 import { useAuthContext } from '../contexts/authContext.ts';
 
 export function Dashboard() {
@@ -9,9 +8,5 @@ export function Dashboard() {
     return <></>;
   }
 
-  return (
-    <Center>
-      <Container>Welcome {user.name}!</Container>
-    </Center>
-  );
+  return <DashboardLayout>{/* TODO: create dashboard */}</DashboardLayout>;
 }

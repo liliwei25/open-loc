@@ -1,6 +1,6 @@
 import './index.css';
+import './i18n';
 
-import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import React from 'react';
@@ -12,18 +12,22 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
-import { AuthLayout } from './components/layouts/AuthLayout.tsx';
-import { ProtectedLayout } from './components/layouts/ProtectedLayout.tsx';
+import { AuthRoute } from './components/routes/AuthRoute.tsx';
+import { ProtectedRoute } from './components/routes/ProtectedRoute.tsx';
+import { UnprotectedRoute } from './components/routes/UnprotectedRoute.tsx';
 import { RoutePath } from './constants/routePath.ts';
 import { Dashboard } from './pages/Dashboard.tsx';
 import { Login } from './pages/Login.tsx';
+import { ThemeProvider } from './providers/ThemeProvider.tsx';
 import { authLoader } from './utils/loaders/authLoader.ts';
 
 const router = createHashRouter(
   createRoutesFromElements(
-    <Route element={<AuthLayout />} loader={authLoader}>
-      <Route path={RoutePath.Login} element={<Login />} />
-      <Route element={<ProtectedLayout />}>
+    <Route element={<AuthRoute />} loader={authLoader}>
+      <Route element={<UnprotectedRoute />}>
+        <Route path={RoutePath.Login} element={<Login />} />
+      </Route>
+      <Route element={<ProtectedRoute />}>
         <Route path={RoutePath.Dashboard} element={<Dashboard />} />
       </Route>
     </Route>
@@ -33,10 +37,10 @@ const router = createHashRouter(
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <ThemeProvider>
         <Notifications position="top-center" />
         <RouterProvider router={router} />
-      </MantineProvider>
+      </ThemeProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>
 );

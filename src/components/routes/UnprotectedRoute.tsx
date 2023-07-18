@@ -4,16 +4,16 @@ import { useNavigate, useOutlet } from 'react-router-dom';
 import { RoutePath } from '../../constants/routePath.ts';
 import { useAuthContext } from '../../contexts/authContext.ts';
 
-export function ProtectedLayout() {
+export function UnprotectedRoute() {
   const outlet = useOutlet();
-  const { user, token } = useAuthContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user && !token) {
-      navigate(RoutePath.Login);
+    if (user) {
+      navigate(RoutePath.Dashboard);
     }
-  }, [user, token, navigate]);
+  }, [user, navigate]);
 
   return outlet;
 }
