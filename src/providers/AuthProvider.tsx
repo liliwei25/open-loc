@@ -32,6 +32,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         setUser(user);
         navigate(RoutePath.Dashboard);
       } catch (e) {
+        console.error(e);
         notifications.show({
           title: 'Unable to login',
           message: isAxiosError(e) ? e.message : 'Unknown error',
