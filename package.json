@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://liliwei25.github.io/open-loc/#",
+  "homepage": "https://open-loc.vercel.app/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
