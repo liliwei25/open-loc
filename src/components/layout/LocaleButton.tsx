@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Locale } from '../../constants/locale.ts';
 
 export function LocaleButton() {
-  const { t, i18n } = useTranslation([], { keyPrefix: 'locales' });
+  const { t, i18n } = useTranslation('dashboard', { keyPrefix: 'locales' });
 
   return (
     <Menu>

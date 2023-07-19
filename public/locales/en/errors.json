@@ -1,0 +1,12 @@
+{
+  "authorisation": {
+    "unauthorised": {
+      "title": "Unauthorised",
+      "message": "You're not authorised."
+    },
+    "generic": {
+      "title": "Unable to login",
+      "message": "Unknown error"
+    }
+  }
+}

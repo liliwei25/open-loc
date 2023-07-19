@@ -17,7 +17,7 @@ import { useAuthContext } from '../../contexts/authContext.ts';
 export function UserMenu() {
   const theme = useMantineTheme();
   const { user, logout } = useAuthContext();
-  const { t } = useTranslation();
+  const { t } = useTranslation('dashboard');
   const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   if (!user) {
