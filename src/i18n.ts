@@ -11,6 +11,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
+    ns: ['login', 'dashboard', 'errors'],
     supportedLngs: Object.values(Locale),
     interpolation: { escapeValue: false },
   });
