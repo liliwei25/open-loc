@@ -1,3 +1,4 @@
+import { FolderEditor } from '../components/dashboard/FolderEditor.tsx';
 import { DashboardLayout } from '../components/layout/DashboardLayout.tsx';
 import { useAuthContext } from '../contexts/authContext.ts';
 
@@ -8,5 +9,9 @@ export function Dashboard() {
     return <></>;
   }
 
-  return <DashboardLayout>{/* TODO: create dashboard */}</DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <FolderEditor />
+    </DashboardLayout>
+  );
 }

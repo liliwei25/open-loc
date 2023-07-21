@@ -8,7 +8,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Logo } from './Logo.tsx';
+import { FullLogo } from './FullLogo.tsx';
 import { MenuActions } from './MenuActions.tsx';
 
 type DashboardHeaderProps = {
@@ -29,14 +29,14 @@ export function DashboardHeader({
   }
 
   return (
-    <Header height="auto" p="md">
+    <Header height="60px" p="md">
       <Group align="center" position="apart">
         <Burger
           opened={isNavbarOpen}
           onClick={() => setIsNavbarOpen((o) => !o)}
           size="sm"
         />
-        <Logo colorScheme={colorScheme} />
+        <FullLogo colorScheme={colorScheme} />
         <MenuActions />
       </Group>
     </Header>

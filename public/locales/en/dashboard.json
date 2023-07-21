@@ -1,7 +1,5 @@
 {
   "logout": "Logout",
-  "locales": {
-    "en": "English",
-    "zh": "中文"
-  }
+  "key": "Key",
+  "translation": "Translation"
 }

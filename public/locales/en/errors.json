@@ -8,5 +8,12 @@
       "title": "Unable to login",
       "message": "Unknown error"
     }
+  },
+  "locales": {
+    "message": "Unable to fetch locales"
+  },
+  "generic": {
+    "title": "Something went wrong",
+    "message": "Please try again later."
   }
 }

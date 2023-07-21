@@ -15,6 +15,7 @@ export function DashboardLayout({ children }: PropsWithChildren) {
       header={
         <DashboardHeader isNavbarOpen={opened} setIsNavbarOpen={setOpened} />
       }
+      sx={{ main: { transition: 'padding 1s' } }}
     >
       {children}
     </AppShell>

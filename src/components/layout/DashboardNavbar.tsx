@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Box,
   Group,
   MediaQuery,
@@ -6,8 +7,10 @@ import {
   rem,
   useMantineColorScheme,
 } from '@mantine/core';
+import { useToggle } from '@mantine/hooks';
+import { IconChevronRight } from '@tabler/icons-react';
 
-import { Logo } from './Logo.tsx';
+import { FullLogo } from './FullLogo.tsx';
 import { MenuActions } from './MenuActions.tsx';
 import { UserMenu } from './UserMenu.tsx';
 
@@ -17,20 +20,37 @@ type DashboardNavbarProps = {
 
 export function DashboardNavbar({ hidden }: DashboardNavbarProps) {
   const { colorScheme } = useMantineColorScheme();
+  const [isMinimized, toggleIsMinimized] = useToggle();
 
   return (
     <Navbar
       p="xs"
-      width={{ base: '100%', sm: 300 }}
+      width={{ base: '100%', sm: isMinimized ? 50 : 300 }}
       hiddenBreakpoint="sm"
       hidden={hidden}
+      sx={{ transition: 'all 1s, background 0s, border-color 0s' }}
     >
       <MediaQuery styles={{ display: 'none' }} smallerThan="sm">
         <Navbar.Section mt="xs">
+          <ActionIcon
+            onClick={() => toggleIsMinimized()}
+            variant="default"
+            size="xs"
+            sx={{
+              position: 'absolute',
+              top: isMinimized ? '137px' : '60px',
+              right: '-10px',
+              transition: 'top 1s',
+            }}
+          >
+            <IconChevronRight
+              style={{ transition: 'transform 1s' }}
+              transform={isMinimized ? 'rotate(0)' : 'rotate(180)'}
+            />
+          </ActionIcon>
           <Box
+            px={isMinimized ? 0 : 'xs'}
             sx={(theme) => ({
-              paddingLeft: theme.spacing.xs,
-              paddingRight: theme.spacing.xs,
               paddingBottom: theme.spacing.lg,
               borderBottom: `${rem(1)} solid ${
                 theme.colorScheme === 'dark'
@@ -40,7 +60,9 @@ export function DashboardNavbar({ hidden }: DashboardNavbarProps) {
             })}
           >
             <Group position="apart">
-              <Logo colorScheme={colorScheme} />
+              <Box sx={{ height: '20px', overflow: 'hidden' }}>
+                <FullLogo colorScheme={colorScheme} />
+              </Box>
               <MenuActions />
             </Group>
           </Box>
@@ -50,7 +72,7 @@ export function DashboardNavbar({ hidden }: DashboardNavbarProps) {
         {/* TODO: add items */}
       </Navbar.Section>
       <Navbar.Section>
-        <UserMenu />
+        <UserMenu isMinimized={isMinimized} />
       </Navbar.Section>
     </Navbar>
   );

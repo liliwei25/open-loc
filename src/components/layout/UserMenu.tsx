@@ -5,6 +5,7 @@ import {
   Menu,
   rem,
   Text,
+  Transition,
   UnstyledButton,
   useMantineTheme,
 } from '@mantine/core';
@@ -14,11 +15,16 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuthContext } from '../../contexts/authContext.ts';
 
-export function UserMenu() {
+type UserMenuProps = {
+  isMinimized: boolean;
+};
+
+export function UserMenu({ isMinimized }: UserMenuProps) {
   const theme = useMantineTheme();
   const { user, logout } = useAuthContext();
   const { t } = useTranslation('dashboard');
   const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const isSmall = isMinimized && !isSmallScreen;
 
   if (!user) {
     return <></>;
@@ -42,10 +48,10 @@ export function UserMenu() {
       >
         <Menu.Target>
           <UnstyledButton
+            p={isSmall ? 0 : 'xs'}
             sx={{
               display: 'block',
               width: '100%',
-              padding: theme.spacing.xs,
               borderRadius: theme.radius.sm,
               color:
                 theme.colorScheme === 'dark'
@@ -60,16 +66,31 @@ export function UserMenu() {
             }}
           >
             <Group>
-              <Avatar src={user.picture} radius="xl" />
-              <Box sx={{ flex: 1 }}>
-                <Text size="sm" weight={500}>
-                  {user.name}
-                </Text>
-                <Text color="dimmed" size="xs">
-                  {user.email}
-                </Text>
-              </Box>
-              <IconChevronRight size={rem(18)} />
+              <Avatar
+                src={user.picture}
+                radius="xl"
+                size={isSmall ? 'sm' : 'md'}
+                sx={{ transition: 'all 1s' }}
+              />
+              <Transition
+                transition="slide-left"
+                mounted={!isSmall}
+                exitDuration={0}
+              >
+                {() => (
+                  <>
+                    <Box sx={{ flex: 1 }}>
+                      <Text size="sm" weight={500}>
+                        {user.name}
+                      </Text>
+                      <Text color="dimmed" size="xs">
+                        {user.email}
+                      </Text>
+                    </Box>
+                    <IconChevronRight size={rem(18)} />
+                  </>
+                )}
+              </Transition>
             </Group>
           </UnstyledButton>
         </Menu.Target>

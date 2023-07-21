@@ -1,13 +1,12 @@
 import { ColorScheme, rem } from '@mantine/core';
 
-export function Logo({ colorScheme }: { colorScheme: ColorScheme }) {
+export function FullLogo({ colorScheme }: { colorScheme: ColorScheme }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={rem(100)}
       viewBox="0 0 369.89473684210526 72.29572973785153"
     >
-      <defs id="SvgjsDefs1816" />
       <g
         transform="matrix(1.6303751653353138,0,0,1.6303751653353138,-6.311692727476646,-14.901629570909659)"
         fill="#41A4C3"
