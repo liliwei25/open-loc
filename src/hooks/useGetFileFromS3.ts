@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getObject } from '../clients/s3.ts';
+import { S3Client } from '../clients/s3.ts';
 import { notifyError } from '../utils/notification/notifyError.ts';
 
 export const useGetFileFromS3 = (path: string) => {
@@ -11,7 +11,7 @@ export const useGetFileFromS3 = (path: string) => {
     (async () => {
       try {
         setIsLoading(true);
-        const object = await getObject(path);
+        const object = await S3Client.getObject(path);
         const fileBody: string = await object.Body?.transformToString();
         setFile(JSON.parse(fileBody));
       } catch (e) {

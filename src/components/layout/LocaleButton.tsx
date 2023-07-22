@@ -6,7 +6,7 @@ import { Locale } from '../../constants/locale.ts';
 import { getLocaleName } from '../../utils/locale/getLocaleName.ts';
 
 export function LocaleButton() {
-  const { i18n } = useTranslation('dashboard', { keyPrefix: 'locales' });
+  const { i18n } = useTranslation([]);
 
   return (
     <Menu>

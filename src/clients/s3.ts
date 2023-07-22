@@ -3,33 +3,50 @@ import {
   GetObjectCommandOutput,
   ListObjectsV2Command,
   ListObjectsV2Output,
-  S3Client,
+  S3Client as AwsS3Client,
 } from '@aws-sdk/client-s3';
+import Cookies from 'js-cookie';
 
-const client = new S3Client({
-  region: import.meta.env.VITE_S3_REGION,
-  credentials: {
-    accessKeyId: import.meta.env.VITE_S3_ACCESS_KEY,
-    secretAccessKey: import.meta.env.VITE_S3_SECRET_ACCESS_KEY,
-  },
-});
+import { CookieName } from '../constants/cookieName.ts';
+import { CognitoClient } from './cognito.ts';
 
-export const listObjects = async (
-  prefix?: string
-): Promise<ListObjectsV2Output> => {
-  const command = new ListObjectsV2Command({
-    Bucket: import.meta.env.VITE_S3_BUCKET,
-    Prefix: prefix,
-  });
-  return client.send(command);
-};
+export class S3Client {
+  private static client: AwsS3Client;
 
-export const getObject = async (
-  path: string
-): Promise<GetObjectCommandOutput> => {
-  const command = new GetObjectCommand({
-    Bucket: import.meta.env.VITE_S3_BUCKET,
-    Key: path,
-  });
-  return client.send(command);
-};
+  static async getInstance(): Promise<AwsS3Client> {
+    if (!this.client) {
+      const token = Cookies.get(CookieName.Token);
+      if (!token) {
+        throw new Error('Not authorized');
+      }
+      const { Credentials } = await CognitoClient.getCredentials(token);
+      this.client = new AwsS3Client({
+        region: import.meta.env.VITE_AWS_REGION,
+        credentials: {
+          accessKeyId: Credentials?.AccessKeyId ?? '',
+          secretAccessKey: Credentials?.SecretKey ?? '',
+          sessionToken: Credentials?.SessionToken,
+        },
+      });
+    }
+    return this.client;
+  }
+
+  static async listObjects(prefix?: string): Promise<ListObjectsV2Output> {
+    const instance = await this.getInstance();
+    const command = new ListObjectsV2Command({
+      Bucket: import.meta.env.VITE_S3_BUCKET,
+      Prefix: prefix,
+    });
+    return instance.send(command);
+  }
+
+  static async getObject(path: string): Promise<GetObjectCommandOutput> {
+    const instance = await this.getInstance();
+    const command = new GetObjectCommand({
+      Bucket: import.meta.env.VITE_S3_BUCKET,
+      Key: path,
+    });
+    return instance.send(command);
+  }
+}

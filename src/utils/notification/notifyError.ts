@@ -13,10 +13,14 @@ export const notifyError = ({
   message = 'generic.message',
   error,
 }: NotifyErrorConfig) => {
-  const { t } = getI18n();
-  notifications.show({
-    title: t(title, { ns: 'errors' }),
-    message: isAxiosError(error) ? error.message : t(message, { ns: 'errors' }),
-    color: 'red',
-  });
+  const { t, loadNamespaces } = getI18n();
+  loadNamespaces('errors').then(() =>
+    notifications.show({
+      title: t(title, { ns: 'errors' }),
+      message: isAxiosError(error)
+        ? error.message
+        : t(message, { ns: 'errors' }),
+      color: 'red',
+    })
+  );
 };

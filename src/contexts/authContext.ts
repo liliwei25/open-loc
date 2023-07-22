@@ -1,12 +1,11 @@
-import { createContext, useContext } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
 import { UserInfo } from '../types/userInfo.ts';
 
 type AuthContextType = {
-  login: () => void;
+  setUser: Dispatch<SetStateAction<UserInfo | null>>;
   logout: () => void;
   user: UserInfo | null;
-  token?: string;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { listObjects } from '../clients/s3.ts';
+import { S3Client } from '../clients/s3.ts';
 import { FolderStructure } from '../types/folderStructure.ts';
 import { getFileToLanguageMap } from '../utils/locale/getFileToLanguageMap.ts';
 import { notifyError } from '../utils/notification/notifyError.ts';
@@ -14,7 +14,7 @@ export const useGetFolderStructure = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await listObjects(
+        const response = await S3Client.listObjects(
           import.meta.env.VITE_S3_LOCALES_PATH
         );
         const paths = getPathsFromS3Objects(response.Contents);
