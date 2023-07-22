@@ -13,7 +13,7 @@ type FileEditorProps = {
 
 export function FileEditor({ filename, folderStructure }: FileEditorProps) {
   const locales = getSortedLocales(folderStructure[filename]);
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation([]);
 
   return (
     <Tabs defaultValue={locales[0]} keepMounted={false}>
