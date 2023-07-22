@@ -28,7 +28,7 @@ export function TableEditor({ filename, locale }: TableEditorProps) {
   );
 
   return (
-    <Table>
+    <Table highlightOnHover striped withColumnBorders>
       <thead>
         <tr>
           <th>{t('key')}</th>

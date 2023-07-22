@@ -30,7 +30,7 @@ export function FolderEditor() {
         ))}
       </Tabs.List>
       {filenames.map((filename) => (
-        <Tabs.Panel key={filename} value={filename}>
+        <Tabs.Panel key={filename} value={filename} sx={{ overflow: 'auto' }}>
           <FileEditor filename={filename} folderStructure={folderStructure} />
         </Tabs.Panel>
       ))}
