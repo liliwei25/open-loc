@@ -1,6 +1,7 @@
 import { Affix, Center, Container, rem } from '@mantine/core';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { LocaleButton } from '../components/layout/LocaleButton.tsx';
@@ -14,11 +15,13 @@ import { notifyError } from '../utils/notification/notifyError.ts';
 export function Login() {
   const { setUser } = useAuthContext();
   const navigate = useNavigate();
+  const { i18n } = useTranslation([]);
 
   return (
     <Center h="100%">
       <Container>
         <GoogleLogin
+          locale={i18n.language}
           onSuccess={async (response: CredentialResponse) => {
             try {
               const user = await getUserInfo(response.credential ?? '');

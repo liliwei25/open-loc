@@ -1,9 +1,11 @@
+import { isDefaultLocale } from './isDefaultLocale.ts';
+
 export const getSortedLocales = (locales: string[]): string[] =>
   locales.sort((a, b) => {
-    if (a === import.meta.env.VITE_DEFAULT_LOCALE) {
+    if (isDefaultLocale(a)) {
       return -1;
     }
-    if (b === import.meta.env.VITE_DEFAULT_LOCALE) {
+    if (isDefaultLocale(b)) {
       return 1;
     }
     return a.localeCompare(b);

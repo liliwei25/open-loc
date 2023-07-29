@@ -5,6 +5,7 @@ import { Notifications } from '@mantine/notifications';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -20,6 +21,8 @@ import { Dashboard } from './pages/Dashboard.tsx';
 import { Login } from './pages/Login.tsx';
 import { ThemeProvider } from './providers/ThemeProvider.tsx';
 import { authLoader } from './utils/loaders/authLoader.ts';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,10 +40,12 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}>
-      <ThemeProvider>
-        <Notifications position="top-center" />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <Notifications position="top-center" />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </QueryClientProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>
 );

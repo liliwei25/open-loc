@@ -2,16 +2,13 @@ import { Center, Loader, Table } from '@mantine/core';
 import { flatten } from 'flat';
 import { useTranslation } from 'react-i18next';
 
+import { useFolderEditorContext } from '../../contexts/folderEditorContext.ts';
 import { useGetFileFromS3 } from '../../hooks/useGetFileFromS3.ts';
 
-type TableEditorProps = {
-  filename: string;
-  locale: string;
-};
-
-export function TableEditor({ filename, locale }: TableEditorProps) {
+export function TableEditor() {
   const { t } = useTranslation('dashboard');
-  const { file, isLoading } = useGetFileFromS3(
+  const { locale, filename, isKeyHidden } = useFolderEditorContext();
+  const { data, isLoading } = useGetFileFromS3(
     `${import.meta.env.VITE_S3_LOCALES_PATH}/${locale}/${filename}`
   );
 
@@ -24,21 +21,21 @@ export function TableEditor({ filename, locale }: TableEditorProps) {
   }
 
   const translations = flatten<Record<string, any>, Record<string, string>>(
-    file
+    data
   );
 
   return (
     <Table highlightOnHover striped withColumnBorders>
       <thead>
         <tr>
-          <th>{t('key')}</th>
+          {!isKeyHidden && <th>{t('key')}</th>}
           <th>{t('translation')}</th>
         </tr>
       </thead>
       <tbody>
         {Object.entries(translations).map(([key, value]) => (
           <tr key={key}>
-            <td>{key}</td>
+            {!isKeyHidden && <td>{key}</td>}
             <td>{value}</td>
           </tr>
         ))}

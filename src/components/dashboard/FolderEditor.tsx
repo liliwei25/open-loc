@@ -1,10 +1,17 @@
-import { Center, Loader, Tabs } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
+import { useMemo } from 'react';
 
 import { useGetFolderStructure } from '../../hooks/useGetFolderStructure.ts';
-import { FileEditor } from './FileEditor.tsx';
+import { FolderEditorContextProvider } from '../../providers/FolderEditorContextProvider.tsx';
+import { FolderEditorOptions } from './FolderEditorOptions.tsx';
+import { TableEditor } from './TableEditor.tsx';
 
 export function FolderEditor() {
-  const { isLoading, folderStructure } = useGetFolderStructure();
+  const { isLoading, data: folderStructure = {} } = useGetFolderStructure();
+  const filenames = useMemo(
+    () => Object.keys(folderStructure),
+    [folderStructure]
+  );
 
   if (isLoading) {
     return (
@@ -14,26 +21,15 @@ export function FolderEditor() {
     );
   }
 
-  const filenames = Object.keys(folderStructure);
-
   return (
-    <Tabs
-      defaultValue={filenames[0]}
-      orientation="vertical"
-      keepMounted={false}
+    <FolderEditorContextProvider
+      filenames={filenames}
+      folderStructure={folderStructure}
     >
-      <Tabs.List>
-        {filenames.map((filename) => (
-          <Tabs.Tab key={filename} value={filename}>
-            {filename}
-          </Tabs.Tab>
-        ))}
-      </Tabs.List>
-      {filenames.map((filename) => (
-        <Tabs.Panel key={filename} value={filename} sx={{ overflow: 'auto' }}>
-          <FileEditor filename={filename} folderStructure={folderStructure} />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      <Stack>
+        <FolderEditorOptions />
+        <TableEditor />
+      </Stack>
+    </FolderEditorContextProvider>
   );
 }

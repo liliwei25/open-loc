@@ -1,5 +1,9 @@
 {
   "logout": "Logout",
   "key": "Key",
-  "translation": "Translation"
+  "translation": "Translation",
+  "hideKey": "Hide key",
+  "selectFile": "Select file",
+  "selectLocale": "Select locale",
+  "notFound": "Not found"
 }
