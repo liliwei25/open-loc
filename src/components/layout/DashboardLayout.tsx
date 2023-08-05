@@ -1,21 +1,29 @@
-import { AppShell } from '@mantine/core';
-import { PropsWithChildren, useState } from 'react';
+import { AppShell, Group, Header, useMantineColorScheme } from '@mantine/core';
+import { PropsWithChildren } from 'react';
 
-import { DashboardHeader } from './DashboardHeader.tsx';
-import { DashboardNavbar } from './DashboardNavbar.tsx';
+import { ColorSchemeButton } from './ColorSchemeButton.tsx';
+import { FullLogo } from './FullLogo.tsx';
+import { LocaleButton } from './LocaleButton.tsx';
+import { UserMenu } from './UserMenu.tsx';
 
 export function DashboardLayout({ children }: PropsWithChildren) {
-  const [opened, setOpened] = useState(false);
+  const { colorScheme } = useMantineColorScheme();
 
   return (
     <AppShell
       padding="md"
-      navbarOffsetBreakpoint="sm"
-      navbar={<DashboardNavbar hidden={!opened} />}
       header={
-        <DashboardHeader isNavbarOpen={opened} setIsNavbarOpen={setOpened} />
+        <Header height="60px" p="md">
+          <Group align="center" position="apart">
+            <FullLogo colorScheme={colorScheme} />
+            <Group spacing="xs">
+              <ColorSchemeButton />
+              <LocaleButton />
+              <UserMenu />
+            </Group>
+          </Group>
+        </Header>
       }
-      sx={{ main: { transition: 'padding 1s' } }}
     >
       {children}
     </AppShell>
