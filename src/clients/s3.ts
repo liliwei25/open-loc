@@ -3,6 +3,9 @@ import {
   GetObjectCommandOutput,
   ListObjectsV2Command,
   ListObjectsV2Output,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  PutObjectCommandOutput,
   S3Client as AwsS3Client,
 } from '@aws-sdk/client-s3';
 import Cookies from 'js-cookie';
@@ -46,6 +49,19 @@ export class S3Client {
     const command = new GetObjectCommand({
       Bucket: import.meta.env.VITE_S3_BUCKET,
       Key: path,
+    });
+    return instance.send(command);
+  }
+
+  static async putObject(
+    path: string,
+    body: Required<PutObjectCommandInput['Body']>
+  ): Promise<PutObjectCommandOutput> {
+    const instance = await this.getInstance();
+    const command = new PutObjectCommand({
+      Bucket: import.meta.env.VITE_S3_BUCKET,
+      Key: path,
+      Body: body,
     });
     return instance.send(command);
   }
