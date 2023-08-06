@@ -5,5 +5,6 @@
   "hideKey": "Hide key",
   "selectFile": "Select file",
   "selectLocale": "Select locale",
-  "notFound": "Not found"
+  "notFound": "Not found",
+  "save": "Save"
 }

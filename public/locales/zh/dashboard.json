@@ -2,8 +2,9 @@
   "logout": "登出",
   "key": "键",
   "translation": "翻译",
-  "hideKey": "Hide key",
-  "selectFile": "Select file",
-  "selectLocale": "Select locale",
-  "notFound": "Not found"
+  "hideKey": "隐藏键",
+  "selectFile": "选择文件",
+  "selectLocale": "选择语言",
+  "notFound": "未找到",
+  "save": "保存"
 }

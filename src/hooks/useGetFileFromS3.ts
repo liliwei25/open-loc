@@ -3,13 +3,14 @@ import { useQuery } from 'react-query';
 import { S3Client } from '../clients/s3.ts';
 import { notifyError } from '../utils/notification/notifyError.ts';
 
+export const getQueryKey = (path: string) => ['getFileFromS3', path];
+
 export const useGetFileFromS3 = (path: string) =>
-  useQuery({
-    queryKey: ['getFileFromS3', path],
+  useQuery(getQueryKey(path), {
     queryFn: async () => {
       const object = await S3Client.getObject(path);
-      const fileBody: string = await object.Body?.transformToString();
-      return JSON.parse(fileBody);
+      const fileBody = await object.Body?.transformToString();
+      return fileBody ? JSON.parse(fileBody) : {};
     },
     onError: (error) => {
       notifyError({
