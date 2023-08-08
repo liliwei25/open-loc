@@ -55,7 +55,7 @@ export class S3Client {
 
   static async putObject(
     path: string,
-    body: Required<PutObjectCommandInput['Body']>
+    body: NonNullable<PutObjectCommandInput['Body']>
   ): Promise<PutObjectCommandOutput> {
     const instance = await this.getInstance();
     const command = new PutObjectCommand({
