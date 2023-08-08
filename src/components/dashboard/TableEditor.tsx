@@ -75,7 +75,14 @@ export function TableEditor() {
         <tbody>
           {fields.map(({ key }, index) => (
             <tr key={key}>
-              {!isKeyHidden && <td>{key}</td>}
+              {!isKeyHidden && (
+                <td>
+                  <TextInput
+                    {...register(`translations.${index}.key`)}
+                    sx={{ input: { background: 'inherit' } }}
+                  />
+                </td>
+              )}
               <td>
                 <TextInput
                   {...register(`translations.${index}.value`)}
