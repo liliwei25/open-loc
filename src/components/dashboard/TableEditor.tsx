@@ -1,4 +1,12 @@
-import { Center, Loader, Stack, Table, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Center,
+  Loader,
+  Stack,
+  Table,
+  TextInput,
+} from '@mantine/core';
+import { IconMinus } from '@tabler/icons-react';
 import { flatten, unflatten } from 'flat';
 import { useEffect, useMemo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -27,7 +35,7 @@ export function TableEditor() {
     reset,
     handleSubmit,
   } = useForm<TableEditorForm>();
-  const { fields } = useFieldArray({
+  const { fields, remove } = useFieldArray({
     name: 'translations',
     control,
   });
@@ -73,6 +81,15 @@ export function TableEditor() {
                   {...register(`translations.${index}.value`)}
                   sx={{ input: { background: 'inherit' } }}
                 />
+              </td>
+              <td width="40px">
+                <ActionIcon
+                  color="red"
+                  radius="xl"
+                  onClick={() => remove(index)}
+                >
+                  <IconMinus />
+                </ActionIcon>
               </td>
             </tr>
           ))}
