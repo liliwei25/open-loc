@@ -1,12 +1,15 @@
 import {
   ActionIcon,
+  Alert,
   Center,
+  Checkbox,
   Loader,
   Stack,
   Table,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
-import { IconMinus } from '@tabler/icons-react';
+import { IconAlertCircle, IconMinus, IconPlus } from '@tabler/icons-react';
 import { flatten, unflatten } from 'flat';
 import { useEffect, useMemo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -15,10 +18,13 @@ import { useTranslation } from 'react-i18next';
 import { useFolderEditorContext } from '../../contexts/folderEditorContext.ts';
 import { useGetFileFromS3 } from '../../hooks/useGetFileFromS3.ts';
 import { useUploadToS3 } from '../../hooks/useUploadToS3.ts';
+import { Translation } from '../../types/translation.ts';
+import { isAllUnique } from '../../utils/array/isAllUnique.ts';
 import { LoadingButton } from '../buttons/LoadingButton.tsx';
 
 type TableEditorForm = {
-  translations: { key: string; value: string }[];
+  translations: Translation[];
+  confirmSave?: boolean;
 };
 
 export function TableEditor() {
@@ -34,8 +40,9 @@ export function TableEditor() {
     formState: { isDirty },
     reset,
     handleSubmit,
+    watch,
   } = useForm<TableEditorForm>();
-  const { fields, remove } = useFieldArray({
+  const { fields, remove, append } = useFieldArray({
     name: 'translations',
     control,
   });
@@ -55,6 +62,10 @@ export function TableEditor() {
     });
   }, [reset, translations, isLoading]);
 
+  const hasDuplicatedKeys = !isAllUnique(
+    (watch('translations') ?? []).map(({ key }) => key)
+  );
+
   if (isLoading) {
     return (
       <Center>
@@ -73,8 +84,8 @@ export function TableEditor() {
           </tr>
         </thead>
         <tbody>
-          {fields.map(({ key }, index) => (
-            <tr key={key}>
+          {fields.map(({ id }, index) => (
+            <tr key={id}>
               {!isKeyHidden && (
                 <td>
                   <TextInput
@@ -90,21 +101,51 @@ export function TableEditor() {
                 />
               </td>
               <td width="40px">
-                <ActionIcon
-                  color="red"
-                  radius="xl"
-                  onClick={() => remove(index)}
-                >
-                  <IconMinus />
-                </ActionIcon>
+                <Tooltip label={t('remove')} openDelay={500}>
+                  <ActionIcon
+                    color="red"
+                    radius="xl"
+                    onClick={() => remove(index)}
+                  >
+                    <IconMinus />
+                  </ActionIcon>
+                </Tooltip>
               </td>
             </tr>
           ))}
+          <tr>
+            <td colSpan={3}>
+              <Tooltip label={t('addNewTranslation')} openDelay={500}>
+                <ActionIcon
+                  color="green"
+                  sx={{ width: '100%' }}
+                  onClick={() => append({ key: '', value: '' })}
+                >
+                  <IconPlus />
+                </ActionIcon>
+              </Tooltip>
+            </td>
+          </tr>
         </tbody>
       </Table>
+      {hasDuplicatedKeys && (
+        <Alert
+          icon={<IconAlertCircle size="1rem" />}
+          title={t('warnings.title')}
+          color="orange"
+          variant="outline"
+        >
+          {t('warnings.duplicatedKeys')}
+          <Checkbox
+            {...register('confirmSave')}
+            label={t('confirmSave')}
+            sx={{ marginTop: '8px' }}
+          />
+        </Alert>
+      )}
       <LoadingButton
         isLoading={isSaving}
-        disabled={!isDirty}
+        disabled={!isDirty || (hasDuplicatedKeys && !watch('confirmSave'))}
         onClick={handleSubmit(async ({ translations }) => {
           const data = translations.reduce(
             (dict, { key, value }) => ({

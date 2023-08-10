@@ -6,5 +6,12 @@
   "selectFile": "Select file",
   "selectLocale": "Select locale",
   "notFound": "Not found",
-  "save": "Save"
+  "save": "Save",
+  "addNewTranslation": "Add new translation",
+  "remove": "Remove",
+  "warnings": {
+    "title": "Warning",
+    "duplicatedKeys": "Duplicated keys found, keys will be overwritten."
+  },
+  "confirmSave": "Confirm save"
 }
