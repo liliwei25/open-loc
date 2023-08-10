@@ -6,5 +6,12 @@
   "selectFile": "选择文件",
   "selectLocale": "选择语言",
   "notFound": "未找到",
-  "save": "保存"
+  "save": "保存",
+  "addNewTranslation": "添加新翻译",
+  "remove": "删除",
+  "warnings": {
+    "title": "警告",
+    "duplicatedKeys": "发现重复的键，键将被覆盖"
+  },
+  "confirmSave": "确认保存"
 }
